@@ -1,0 +1,24 @@
+     1                                  ; Assembler: nasm ­-f elf ­-o <program>.o <program>.asm
+     2                                  ; Linker: ld ­-m elf_i386 ­-s -­o <program> <program>.o
+     3                                  ; ./<program>
+     4                                  ;******************************************************************************
+     5                                  
+     6                                        SECTION .data               ; data section
+     7 00000000 48656C6C6F20576F72-     msg:  db "Hello World",10         ; the string to print, 10=cr (carriage return)
+     8 00000009 6C640A             
+     9                                  
+    10                                        SECTION .text               ; code section
+    11                                  
+    12                                    global _start
+    13                                  
+    14                                    _start:
+    15                                  ; Program Entry Point
+    16 00000000 B804000000                  mov   eax,4                   ; write sysout command to int 80 hex
+    17 00000005 BB01000000                  mov   ebx,1                   ; arg1, where to write, screen
+    18 0000000A B9[00000000]                mov   ecx,msg
+    19 0000000F BA0C000000                  mov   edx,12
+    20 00000014 CD80                        int   0x80
+    21                                  
+    22 00000016 BB00000000                  mov   ebx,0
+    23 0000001B B801000000                  mov   eax,1
+    24 00000020 CD80                        int   0x80

@@ -1,0 +1,23 @@
+     1                                  ; Assembler: nasm ­-f elf ­-o <program>.o <program>.asm
+     2                                  ; Linker: ld ­-m elf_i386 ­-s -­o <program> <program>.o
+     3                                  ; ./first
+     4                                  ;******************************************************************************
+     5                                  ;
+     6                                  ; In terminal...
+     7                                  ; echo $?
+     8                                  ;
+     9                                  ;******************************************************************************
+    10                                  ; ebx --> stores the return value of the program.
+    11                                  ; echo command must show the value of ebx (in this case: 15)
+    12                                  
+    13                                    SECTION .text
+    14                                  
+    15                                  global _start
+    16                                  
+    17                                    ; Program entry point
+    18                                    _start:
+    19                                  
+    20 00000000 BB0F000000                  mov ebx,15
+    21                                  
+    22 00000005 B801000000                  mov eax,1       ; exit command to kernel
+    23 0000000A CD80                        int 0x80        ; interrupt 80 hex, call kernel

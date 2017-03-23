@@ -1,0 +1,5 @@
+How to use Shell...
+
+chmod 700 <shellName>.sh              /* authorize sheel in the directory */
+
+./<shellName>.sh <program>            /* executing shell */
