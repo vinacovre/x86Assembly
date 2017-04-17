@@ -3,7 +3,8 @@
 N:          db  8, 6, 7         ; Grades
 P:          db  2, 3, 5         ; Weights
 msg:        db  "Aprovado: X"
-mask:       db  1B              ; mask: 10000000
+mask:       db  1B
+            TIMES 7 DB 0        ; mask: 10000000 ... 00000000 (32 bits)
 
 	SECTION .text
 
@@ -68,7 +69,7 @@ _start:
     ; 8 bits for 2's complement range: -128 to +127
     ; That is why we get "al" instead of "eax"
 
-    and     al, mask            ; al gets the first bit of the FINAL GRADE
+    and     eax, mask            ; eax gets the first bit of the FINAL GRADE
 
     ; if (al = 00000000 = 0)    --> approved
     ; if (al = 10000000 = -128) --> disapproved
@@ -78,14 +79,10 @@ _start:
 
     ; al * 2 overflows when al = 10000000 (disapproved)
 
-    ; Verify overflow (OF) flag!
-
-    add     ah, BYTE 48
-    mov     ebx, ah
-
+    ; Go to the 10th position of the message (where is 1 or 0)
     mov     eax, msg
     add     eax, 10
-    mov     [eax], ebx
+    ; mov     [eax], OF           ; "Aprovado: [OF]"
 
 ; ****************************************************
 
