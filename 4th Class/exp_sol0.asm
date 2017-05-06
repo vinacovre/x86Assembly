@@ -3,7 +3,8 @@
 ;****************************************************
 
 ;	R = (A - B) * (D + E) - F
-;	A = 10; B=8; D=1; E=3; F=2; R=6
+;	where A = 10; B=8; D=1; E=3; F=2; 
+;	R = 6
 
 	SECTION .data
 A:		db	10		
@@ -22,7 +23,7 @@ _start:
 	xor		ebx,ebx
 
 	mov		al,[A]
-	sub		bl,[B]	; (A - B)
+	sub		al,[B]	; (A - B)
 
 	mov		bl,[D]
 	add		bl,[E]	; (D + E)

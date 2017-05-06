@@ -3,7 +3,8 @@
 ;****************************************************
 
 ;	R = F + A * E - D * B
-;	A = 10; B=8; D=1; E=3; F=2; R=6
+;	where A = 10; B=8; D=1; E=3; F=2;
+;	R = 24
 
 	SECTION .data
 A:		db	10		
@@ -40,7 +41,7 @@ _start:
 	
 	;mov		al,[D]
 	;mov		bl,[B]
-	;mul		bl		; cx = D * B
+	;mul		bl		; dx = D * B
 	;mov		dx,ax
 
 	;mov		al,[A]
