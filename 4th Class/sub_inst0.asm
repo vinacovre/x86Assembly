@@ -13,9 +13,9 @@ global _start
 _start:
 
 	;BLOCK 1
-	;xor	eax,eax		; starts eax as zero
-	;mov	eax,[var1]
-	;sub	eax,[var2]
+	; xor	eax,eax		; starts eax as zero
+	; mov	eax,[var1]
+	; sub	eax,[var2]
 	; 127 - 64 = 63
 
 	;BLOCK 2
