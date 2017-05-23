@@ -1,0 +1,10 @@
+%macro dobro 1
+    add     %1, %1
+%endmacro
+
+%macro quadrado 1
+    mov     eax, %1
+    mov     ebx, %1
+    mul     ebx
+    mov     %1, eax
+%endmacro
