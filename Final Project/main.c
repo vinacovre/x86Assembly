@@ -62,14 +62,27 @@ int main() {
     print_matrix(C);
 
     printf("\nResulting Matrix (5*A)*C:\n");
+    
     clock_t begin = clock();
     smallest = calculate_C(A, C);
     clock_t end = clock();
-
-    printf("\nSmallest value in the main diagonal: %d", smallest);
-
     double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
     printf("\nTime in C: %f\n", time_spent);
 
+    extern int calculate_ASM(int[][3], int[][3]);
+    begin = clock();
+    smallest = calculate_ASM(A, C);
+    end = clock();
+    time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+    printf("\nTime in NASM: %f\n", time_spent);
+
+    // extern int calculate_GAS(int, int);
+    // begin = clock();
+    // smallest = calculate_GAS(A, C);
+    // end = clock();
+    // time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+    // printf("\nTime in GAS: %f\n", time_spent);
+
+    printf("\nSmallest value in the main diagonal: %d", smallest);
     return 0;
 }
