@@ -11,7 +11,6 @@ global _start
 _start:
 
     mov     eax, [b]
-    mov     ebx, [b]
     mov     ecx, [e]
 
     ; if (e == 0) return 1; else LOOP
@@ -21,8 +20,7 @@ _start:
     jmp     END
 
 LOOP:
-    ; testar mul [b] ou mul BYTE [b]
-    mul     ebx         ; eax = eax * ebx | eax = b * b
+    mul     BYTE [b]    ; eax = eax * b
     dec     ecx         ; e = e - 1;
 
     ; if (e <= 1) return eax;
