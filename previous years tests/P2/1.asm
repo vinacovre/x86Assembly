@@ -1,7 +1,7 @@
     SECTION .data
 
-b:   DB  2
-e:   DB  6
+b:   DB  7
+e:   DB  2
 
 ; b^e
 
