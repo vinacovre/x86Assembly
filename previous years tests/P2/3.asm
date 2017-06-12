@@ -1,7 +1,7 @@
     SECTION .data
 
-array:    db    2,6,18,1,9
-size:     db    5
+array:    db    2,6,18,1,9,20,10,4,7,11
+size:     db    10
 
     SECTION .text
 
@@ -21,7 +21,7 @@ _start:
     jmp     END
 
 LOOP:
-    inc     eax                 ; INDEX++
+    inc     al                  ; INDEX++
 
     cmp     [array + eax], cl
     jge     CMP_BIG             ; if(array[INDEX] < SMALLEST)
@@ -34,7 +34,7 @@ CMP_BIG:
     mov     dl, [array + eax]   ;   GREATEST = array[INDEX];
 
 LOOP_COND:
-    cmp     eax, [size]
+    cmp     al, [size]
     jl      LOOP
 
     mov     bl, dl              ; RESULT = GREATEST
