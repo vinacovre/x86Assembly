@@ -23,19 +23,22 @@ _start:
 LOOP:
     inc     al                  ; INDEX++
 
+LOOP_COND:
+    cmp     al, [size]
+    jge     END_LOOP
+
     cmp     [array + eax], cl
     jge     CMP_BIG             ; if(array[INDEX] < SMALLEST)
     mov     cl, [array + eax]   ;   SMALLEST = array[INDEX];
-    jmp     LOOP_COND
+    jmp     LOOP
 
 CMP_BIG:
     cmp     [array + eax], dl
-    jle     LOOP_COND           ; if(array[INDEX] > GREATEST)
+    jle     LOOP                ; if(array[INDEX] > GREATEST)
     mov     dl, [array + eax]   ;   GREATEST = array[INDEX];
-
-LOOP_COND:
-    cmp     al, [size]
-    jl      LOOP
+    jmp     LOOP
+   
+END_LOOP:
 
     mov     bl, dl              ; RESULT = GREATEST
     sub     bl, cl              ; RESULT = GREATEST - SMALLEST
