@@ -1,7 +1,7 @@
     SECTION .data
 
-b:   DB  3
-e:   DB  4
+b:   DB  5
+e:   DB  3
 
 ; b^e
 
@@ -10,26 +10,26 @@ e:   DB  4
 global _start
 _start:
 
-    mov     eax, [b]
-    mov     ecx, [e]
+    mov     al, [b]
+    mov     cl, [e]
 
     ; if (e == 0) return 1; else LOOP
-    cmp     ecx, 0
+    cmp     cl, 0
     jne     LOOP
-    mov     eax, 1
+    mov     al, 1
     jmp     END
 
 LOOP:
-    mul     BYTE [b]    ; eax = eax * b
-    dec     ecx         ; e = e - 1;
+    mul     BYTE [b]    ; al = al * b
+    dec     cl          ; e = e - 1;
 
-    ; if (e <= 1) return eax;
-    cmp     ecx, 1
+    ; if (e <= 1) return al;
+    cmp     cl, 1
     jbe     END
     jmp     LOOP
 
 END:
 ; *****************************
-    mov     ebx, eax
+    mov     bl, al
     mov     eax, 1
     int     0x80
