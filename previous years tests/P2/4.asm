@@ -26,7 +26,7 @@ END:
     mov     eax, 4         ; arg1, write sysout command to int 80 hex
     mov     ebx, 1         ; arg2, where to write, screen
     ; mov     ecx, msg     ; arg3, pointer to message
-    mov     edx, 6         ; arg3, number of characters to print
+    mov     edx, 6         ; arg4, number of characters to print
     int     0x80
 
 ; ****************************************************
