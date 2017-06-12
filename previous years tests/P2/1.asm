@@ -13,11 +13,11 @@ _start:
     mov     al, [b]
     mov     cl, [e]
 
-    ; if (e == 0) return 1; else LOOP
+    ; if (e == 0) return 1;
     cmp     cl, 0
     je      ZERO
 
-    ; if (e == 1) return b; else LOOP        
+    ; else if (e == 1) return b; else LOOP        
     cmp     cl, 1
     je      END
 
