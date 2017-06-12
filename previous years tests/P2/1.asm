@@ -32,7 +32,6 @@ LOOP:
 
 ZERO:
     mov     al, 1
-    jmp     END
 
 END:
 ; *****************************
