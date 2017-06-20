@@ -4,24 +4,37 @@ byte_size:  db    4
 
     SECTION .text
 
-    global calculate_ASM
-calculate_ASM:
+    global test
+test:
 
     ; Prologue
     push    ebp
     mov     ebp,esp
 
-    ; ecx = L
-    mov     ecx,[ebp+8]
+    ; getting L
+    mov     eax, [ebp + 8]
+    mul     eax                     ; eax = L * L
+    dec     eax                     ; eax = (L * L) - 1
+    mov     ecx, eax                ; ecx (counter) = (L * L) - 1
 
     ; getting the second parameter --> 5
     mov     ebx, [ebp + 12]
 
-    ; esi = A
-    mov	  esi, [ebp + 16]
+    ; getting first element of A
+    mov	    esi, [ebp + 16]
 
-    mov	eax, esi
-    mul	ebx
+
+MUL_BY_SCALAR:
+    ; ecx = counter = L
+    mov     eax, [esi + ecx * 4]    ; getting right value in matrix
+    mul     bx                      ; 5 * ax
+    mov     [edi + ecx * 4], eax    ; insert calculated value in the right place
+    dec     ecx                     ; counter--
+    jns     MUL_BY_SCALAR           ; until counter < 0
+
+    ; mov	    eax, ecx ;TEST
+    inc     ecx
+    mov     eax, [esi + 4]
 
     ; Epilogue
     mov     esp,ebp
