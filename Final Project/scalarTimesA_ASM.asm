@@ -1,7 +1,7 @@
     SECTION .data
 
-; nasm -f elf -o output.o scalarTimesA_ASM.asm
-; gcc -m32 -o project.out main.c output.o
+; nasm -f elf -o output_ASM1 scalarTimesA_ASM.asm
+; gcc -m32 -o project.out main.c output_ASM1.o
 ; ./project.out
 
     SECTION .text
