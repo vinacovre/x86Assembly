@@ -2,7 +2,8 @@
 #include <stdlib.h>
 #include <time.h>
 
-#define L 3
+#define L           3
+#define scalar      5
 
 void print_matrix(int M[][L]) {
     int i, j;
@@ -19,14 +20,14 @@ int calculate_C(int A[][L], int C[][L]) {
     int T[L][L]; // temporary matrix
     int R[L][L]; // resulting matrix
 
-    // multiplies matrix A by 5 in T
+    // multiplies matrix A by scalar in T
     int i, j, k;
     for(i = 0; i<L; i++)
         for(j = 0; j<L; j++) {
-            T[i][j] = A[i][j] * 5;
+            T[i][j] = A[i][j] * scalar;
         }
 
-    // multiplies matrix 5*A by the C matrix in R
+    // multiplies matrix scalar*A by the C matrix in R
     for(i = 0; i<L; i++)
         for(j = 0; j<L; j++) {
             R[i][j] = 0;
@@ -47,8 +48,9 @@ int calculate_C(int A[][L], int C[][L]) {
 
 int main() {
 
-    int A[L][L];
-    int C[L][L];
+    int A[L][L];    // input A matrix
+    int C[L][L];    // input C matrix
+    int R[L][L];    // resulting matrix
 
     int i, j, smallest;
     srand(time(NULL));
@@ -64,30 +66,30 @@ int main() {
     printf("\nOriginal matrix C:\n");
     print_matrix(C);
 
-    printf("\nResulting Matrix (5*A)*C:\n");
+    printf("\nResulting Matrix (%d*A)*C:\n", scalar);
 
     clock_t begin = clock();
-    // int R[L][L] = A;
     smallest = calculate_C(A,C);
     clock_t end = clock();
     double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
-    printf("\nTime in C: %f\n", time_spent);
+    printf("\nTime in C: %.10f\n", time_spent);
 
-    // extern int calculate_ASM(int[][3], int[][3]);
-    extern int test(int, int, int[][3]);
+    extern int scalarTimesA_ASM(int, int, int *, int *);
     begin = clock();
-    // smallest = calculate_ASM(A, C);
-    smallest = test(L,5,A);
+    scalarTimesA_ASM(L,scalar,*A,*R);
     end = clock();
     time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
-    printf("\nTime in NASM: %f\n", time_spent);
+    printf("\nTime in NASM: %.10f\n", time_spent);
+
+    printf("\n%d * A in asm:\n", scalar);
+    print_matrix(R);
 
     // extern int calculate_GAS(int, int);
     // begin = clock();
     // smallest = calculate_GAS(A, C);
     // end = clock();
     // time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
-    // printf("\nTime in GAS: %f\n", time_spent);
+    // printf("\nTime in GAS: %.10f\n", time_spent);
 
     printf("\nSmallest value in the main diagonal: %d", smallest);
     return 0;

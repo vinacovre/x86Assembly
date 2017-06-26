@@ -1,15 +1,13 @@
     SECTION .data
 
-; nasm -f elf -o vina.o test.asm
-; gcc -m32 -o project.out main.c vina.o
+; nasm -f elf -o output.o scalarTimesA_ASM.asm
+; gcc -m32 -o project.out main.c output.o
 ; ./project.out
-
-byte_size:  db    4
 
     SECTION .text
 
-    global test
-test:
+    global scalarTimesA_ASM
+scalarTimesA_ASM:
 
     ; Prologue
     push    ebp
@@ -21,7 +19,7 @@ test:
     dec     eax                     ; eax = (L * L) - 1
     mov     ecx, eax                ; ecx (counter) = (L * L) - 1
 
-    ; getting the second parameter --> 5
+    ; getting the second parameter --> scalar
     mov     ebx, [ebp + 12]
 
     ; getting first element of A
@@ -34,7 +32,7 @@ test:
 MUL_BY_SCALAR:
     ; ecx = counter = L
     mov     eax, [esi + ecx * 4]    ; getting right value in matrix
-    mul     bx                      ; 5 * ax
+    mul     bx                      ; scalar * ax
     mov     [edi + ecx * 4], eax    ; insert calculated value in the right place
     dec     ecx                     ; counter--
     jns     MUL_BY_SCALAR           ; until counter < 0
