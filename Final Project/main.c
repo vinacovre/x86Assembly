@@ -84,6 +84,15 @@ int main() {
 
     printf("\nResulting Matrix (%d*A)*C:\n", scalar);
 
+    /*
+    nasm -f elf -o outputNASM1.o matrixMultiplication_ASM.asm
+    nasm -f elf -o outputNASM2.o scalarTimesA_ASM.asm
+    as --32 -o outputGAS1.o matrixMultiplication_GAS.s
+    as --32 -o outputGAS2.o scalarTimesA_GAS.s
+    gcc -m32 -o project.out main.c *.o
+    ./project.out
+    */
+
     clock_t begin = clock();
     smallest = calculate_C(A,C);
     clock_t end = clock();
@@ -91,6 +100,7 @@ int main() {
     printf("\nTime in C: %.10f\n", time_spent);
 
     extern int scalarTimesA_ASM(int, int, int *, int *);
+    extern int matrixMultiplication_ASM(int, int *, int *, int *);
     begin = clock();
     scalarTimesA_ASM(L,scalar,*A,*R1); // R1 = scalar*A
     matrixMultiplication_ASM(L,*R1,*C,*R2); // R2 = C x R1
@@ -98,20 +108,21 @@ int main() {
     time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
     printf("\nTime in NASM: %.10f\n", time_spent);
 
-    printf("\n%d * A in ASM:\n", scalar);
-    print_matrix(R1);
+    // printf("\n%d * A in NASM:\n", scalar);
+    // print_matrix(R1);
 
-    // extern int scalarTimesA_GAS(int, int, int *, int *);
-    // begin = clock();
-    // scalarTimesA_GAS(L,scalar,*A,*R1); // R1 = scalar*A
-    // matrixMultiplication_GAS(L,*R1,*C,*R2); // R2 = C x R1
-    // end = clock();
-    // time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
-    // printf("\nTime in GAS: %.10f\n", time_spent);
+    extern int scalarTimesA_GAS(int, int, int *, int *);
+    extern int matrixMultiplication_GAS(int, int *, int *, int *);
+    begin = clock();
+    scalarTimesA_GAS(L,scalar,*A,*R1); // R1 = scalar*A
+    matrixMultiplication_GAS(L,*R1,*C,*R2); // R2 = C x R1
+    end = clock();
+    time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+    printf("\nTime in GAS: %.10f\n", time_spent);
 
     // printf("\n%d * A in GAS:\n", scalar);
     // print_matrix(R1);
 
-    printf("\nSmallest value in the main diagonal: %d", smallest);
+    printf("\nSmallest value in the main diagonal: %d\n", smallest);
     return 0;
 }

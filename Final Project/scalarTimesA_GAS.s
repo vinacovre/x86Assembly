@@ -1,9 +1,5 @@
     .text
 
-# as --32 -o output_GAS1.o scalarTimesA_GAS.s
-# gcc -m32 -o project.out main.c output_GAS1.o
-# ./project.out
-
     .global scalarTimesA_GAS
 scalarTimesA_GAS: 
 
