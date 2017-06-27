@@ -9,7 +9,7 @@ Grupo 4:
 - Mayara Ramos
 - Vinicius Covre
 
-Tarefa: 
+Tarefa:
 (5A x C); retornando o menor valor da diagonal principal.
 */
 
@@ -17,8 +17,14 @@ Tarefa:
 #include <stdlib.h>
 #include <time.h>
 
-#define L           3
-#define scalar      5
+#define L 5
+
+/*
+nasm -f elf -o outputNASM2.o scalarTimesA_ASM.asm
+as --32 -o outputGAS2.o scalarTimesA_GAS.s
+gcc -m32 -o project.out main.c *.o
+./project.out
+*/
 
 void print_matrix(int M[][L]) {
     int i, j;
@@ -61,12 +67,21 @@ int calculate_C(int A[][L], int C[][L]) {
     return smallest;
 }
 
+void scalarTimesA_C(int sizeL, int A[][L], int output[][L]){
+  int i, j;
+  for(i = 0; i<sizeL; i++)
+      for(j = 0; j<sizeL; j++) {
+          output[i][j] = A[i][j] * scalar;
+      }
+}
+
 int main() {
 
-    int A[L][L];    // input A matrix
-    int C[L][L];    // input C matrix
-    int R1[L][L];   // resulting matrix of scalar*A operation
-    int R2[L][L];   // resulting matrix of (scalar*A)xC operation
+    int A[L][L];            // input A matrix
+    int C[L][L];            // input C matrix
+    int outputC[L][L];      // resulting matrix of 5*A operation
+    int outputNASM[L][L];   // resulting matrix of 5*A operation
+    int outputGAS[L][L];    // resulting matrix of 5*A operation
 
     int i, j, smallest;
     srand(time(NULL));
@@ -76,53 +91,38 @@ int main() {
             C[i][j] = rand() % 10+1;
         }
 
-    printf("Original matrix A:\n");
-    print_matrix(A);
+    // printf("Original matrix A:\n");
+    // print_matrix(A);
 
-    printf("\nOriginal matrix C:\n");
-    print_matrix(C);
-
-    printf("\nResulting Matrix (%d*A)*C:\n", scalar);
-
-    /*
-    nasm -f elf -o outputNASM1.o matrixMultiplication_ASM.asm
-    nasm -f elf -o outputNASM2.o scalarTimesA_ASM.asm
-    as --32 -o outputGAS1.o matrixMultiplication_GAS.s
-    as --32 -o outputGAS2.o scalarTimesA_GAS.s
-    gcc -m32 -o project.out main.c *.o
-    ./project.out
-    */
+    // printf("\nOriginal matrix C:\n");
+    // print_matrix(C);
 
     clock_t begin = clock();
-    smallest = calculate_C(A,C);
+    scalarTimesA_C(L, A, outputC);
     clock_t end = clock();
-    double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
-    printf("\nTime in C: %.10f\n", time_spent);
+    float time_spent = (float)(end - begin) / CLOCKS_PER_SEC;
+    // printf("\nResulting Matrix (5*A) in C:\n");
+    // print_matrix(outputC);    
+    printf("\nTime in C: %.6f\n", time_spent);
 
     extern int scalarTimesA_ASM(int, int, int *, int *);
-    extern int matrixMultiplication_ASM(int, int *, int *, int *);
     begin = clock();
-    scalarTimesA_ASM(L,scalar,*A,*R1); // R1 = scalar*A
-    matrixMultiplication_ASM(L,*R1,*C,*R2); // R2 = C x R1
+    scalarTimesA_ASM(L,5,*A,*outputNASM); // output = 5*A
     end = clock();
-    time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
-    printf("\nTime in NASM: %.10f\n", time_spent);
-
-    // printf("\n%d * A in NASM:\n", scalar);
-    // print_matrix(R1);
+    time_spent = (float)(end - begin) / CLOCKS_PER_SEC;
+    // printf("\nResulting Matrix (5*A) in NASM:\n");
+    // print_matrix(outputNASM);   
+    printf("\nTime in NASM: %.6f\n", time_spent);
 
     extern int scalarTimesA_GAS(int, int, int *, int *);
-    extern int matrixMultiplication_GAS(int, int *, int *, int *);
     begin = clock();
-    scalarTimesA_GAS(L,scalar,*A,*R1); // R1 = scalar*A
-    matrixMultiplication_GAS(L,*R1,*C,*R2); // R2 = C x R1
+    scalarTimesA_GAS(L,5,*A,*outputGAS); // output = 5*A
     end = clock();
-    time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
-    printf("\nTime in GAS: %.10f\n", time_spent);
+    time_spent = (float)(end - begin) / CLOCKS_PER_SEC;
+    // printf("\nResulting Matrix (5*A) in GAS:\n");
+    // print_matrix(outputGAS);   
+    printf("\nTime in GAS: %.6f\n", time_spent);
 
-    // printf("\n%d * A in GAS:\n", scalar);
-    // print_matrix(R1);
-
-    printf("\nSmallest value in the main diagonal: %d\n", smallest);
+    // printf("\nSmallest value in the main diagonal: %d\n", smallest);
     return 0;
 }
